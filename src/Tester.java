@@ -1,10 +1,12 @@
 public class Tester {
 
 	public static void main(String[] args) {
-		String plaintext = Cipher.getFileAsString("plaintext1.txt");
+		String ciphertext = Cipher.getFileAsString("ciphertext3.txt");
 
-		String cipher = Cipher.vigenereCipherEncrypt(plaintext, "password", Cipher.ALPHABET);
+		String plaintext = Cipher.freqAnalysisCrackVigenereLength3(ciphertext);
 		
-		Cipher.writeStringToFile("ciphertext.txt", cipher);
+		//Cipher.writeStringToFile("ciphertext.txt", cipher);
+		
+		System.out.println(plaintext);
 	}
 }

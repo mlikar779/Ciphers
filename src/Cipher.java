@@ -14,12 +14,109 @@ public class Cipher {
 	// password.
 	// return the correct password or null if it can’t be cracked.
 	public static String freqAnalysisCrackVigenereLength2(String ciphertext) {
-		return null;
+		String evenGroup = "";
+		String oddGroup = "";
+
+		for (int i = 0; i < ciphertext.length(); i++) {
+			
+			if(i % 2 == 0) {	
+				evenGroup += ciphertext.substring(i, i + 1);
+			} else {
+				oddGroup += ciphertext.substring(i, i + 1);
+			}
+		}
+
+		String passwordLetter1 = "";
+		String passwordLetter2 = "";
+
+
+		for (int shiftAmount = 0; shiftAmount < ALPHABET.length(); shiftAmount++) {
+			String decodedEven = rotationCipherDecrypt(evenGroup, shiftAmount, ALPHABET);
+			String decodedOdd = rotationCipherDecrypt(oddGroup, shiftAmount, ALPHABET);
+
+			
+			ArrayList<String> mostFreqEven = getMostFreqLetters(decodedEven);
+			ArrayList<String> mostFreqOdd = getMostFreqLetters(decodedOdd);
+
+
+			if (mostFreqEven.get(0).equals(" ") && mostFreqEven.get(1).equals("e")) {
+				passwordLetter1 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+			}
+			
+			if (mostFreqOdd.get(0).equals(" ") && mostFreqOdd.get(1).equals("e")) {
+				passwordLetter2 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+			}
+		}
+		
+		String password = passwordLetter1 + passwordLetter2;
+		
+		
+		
+		return vigenereCipherDecrypt(ciphertext, password, ALPHABET);
+	}
+
+	private static ArrayList<String> getMostFreqLetters(String decoded) {
+		Bag bag = new Bag();
+				
+		for(int i = 0; i < decoded.length(); i++) {
+			bag.add(decoded.substring(i, i + 1));
+		}
+	
+		return bag.getNMostFrequentStrings(2);
 	}
 
 	// same as last one, but this cracks a 3 letter password
 	public static String freqAnalysisCrackVigenereLength3(String ciphertext) {
-		return null;
+		String group1 = "";
+		String group2 = "";		
+		String group3 = "";
+
+
+		for (int i = 0; i < ciphertext.length(); i++) {
+			
+			if(i % 3 == 0) {	
+				group1 += ciphertext.substring(i, i + 1);
+			} else if(i % 3 == 1){
+				group2 += ciphertext.substring(i, i + 1);
+			} else {
+				group3 += ciphertext.substring(i, i + 1);
+			}
+		}
+
+		String passwordLetter1 = "";
+		String passwordLetter2 = "";
+		String passwordLetter3 = "";
+
+		for (int shiftAmount = 0; shiftAmount < ALPHABET.length(); shiftAmount++) {
+			String decoded1 = rotationCipherDecrypt(group1, shiftAmount, ALPHABET);
+			String decoded2 = rotationCipherDecrypt(group2, shiftAmount, ALPHABET);
+			String decoded3 = rotationCipherDecrypt(group3, shiftAmount, ALPHABET);
+
+			
+			ArrayList<String> mostFreq1 = getMostFreqLetters(decoded1);
+			ArrayList<String> mostFreq2 = getMostFreqLetters(decoded2);
+			ArrayList<String> mostFreq3 = getMostFreqLetters(decoded3);
+
+
+
+			if (mostFreq1.get(0).equals(" ") && mostFreq1.get(1).equals("e")) {
+				passwordLetter1 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+			}
+			
+			if (mostFreq2.get(0).equals(" ") && mostFreq2.get(1).equals("e")) {
+				passwordLetter2 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+			}
+			
+			if (mostFreq3.get(0).equals(" ") && mostFreq3.get(1).equals("e")) {
+				passwordLetter3 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+			}
+		}
+		
+		String password = passwordLetter1 + passwordLetter2 + passwordLetter3;
+		
+		
+		
+		return vigenereCipherDecrypt(ciphertext, password, ALPHABET);
 	}
 
 	// same as last one, but this works for a password of length passwordLength
