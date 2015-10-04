@@ -120,8 +120,51 @@ public class Cipher {
 	}
 
 	// same as last one, but this works for a password of length passwordLength
-	public static String freqAnalysisCrackVigenere(String ciphertext, int passwordLength) {
-		return null;
+	public static void freqAnalysisCrackVigenere(String ciphertext, int passwordLength) {	
+		String[] groups = new String[passwordLength];
+
+		for (int i = 0; i < ciphertext.length(); i++) {	
+			for(int j = 0; j < passwordLength;j++) {
+				if(i % passwordLength == j) {	
+					groups[j] += ciphertext.substring(i, i + 1);
+				}
+			}
+		}
+
+//		String passwordLetter1 = "";
+//		String passwordLetter2 = "";
+//		String passwordLetter3 = "";
+//
+//		for (int shiftAmount = 0; shiftAmount < ALPHABET.length(); shiftAmount++) {
+//			String decoded1 = rotationCipherDecrypt(group1, shiftAmount, ALPHABET);
+//			String decoded2 = rotationCipherDecrypt(group2, shiftAmount, ALPHABET);
+//			String decoded3 = rotationCipherDecrypt(group3, shiftAmount, ALPHABET);
+//
+//			
+//			ArrayList<String> mostFreq1 = getMostFreqLetters(decoded1);
+//			ArrayList<String> mostFreq2 = getMostFreqLetters(decoded2);
+//			ArrayList<String> mostFreq3 = getMostFreqLetters(decoded3);
+//
+//
+//
+//			if (mostFreq1.get(0).equals(" ") && mostFreq1.get(1).equals("e")) {
+//				passwordLetter1 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+//			}
+//			
+//			if (mostFreq2.get(0).equals(" ") && mostFreq2.get(1).equals("e")) {
+//				passwordLetter2 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+//			}
+//			
+//			if (mostFreq3.get(0).equals(" ") && mostFreq3.get(1).equals("e")) {
+//				passwordLetter3 = ALPHABET.substring(shiftAmount, shiftAmount + 1);
+//			}
+//		}
+//		
+//		String password = passwordLetter1 + passwordLetter2 + passwordLetter3;
+//		
+//		
+//		
+//		return vigenereCipherDecrypt(ciphertext, password, ALPHABET);
 	}
 
 	// same as last one, but this one ALSO figures out the password length*
